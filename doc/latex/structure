@@ -1,0 +1,16 @@
+/doc/latex/
+├── main.tex                 (główny plik)
+├── .vscode/
+│   └── settings.json        (konfiguracja VSCode)
+├── chapters/
+│   ├── 01-wstep.tex
+│   ├── 02-algorytmy.tex
+│   ├── 03-eksperymenty.tex
+│   ├── 04-dane.tex
+│   └── 05-wyniki.tex        (do wypełnienia później)
+├── images/
+│   ├── diagrams/
+│   └── results/
+├── references.bib           (bibliografia)
+├── preamble.tex             (wszystkie \usepackage itp)
+└── README.md                (instrukcje dla zespołu)

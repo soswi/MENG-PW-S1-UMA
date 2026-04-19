@@ -1,0 +1,95 @@
+% !TEX root = main.tex
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+
+\geometry{margin=2.5cm}
+
+\title{Dokumentacja wstępna\\Zmodyfikowana wersja algorytmu AQ z wykorzystaniem zbioru walidacyjnego}
+\author{Autorzy: Adrian Garbowski oraz Wiktor Sosnowski}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Opis projektu}
+
+Tematem projektu jest implementacja zmodyfikowanej wersji algorytmu indukcji reguł AQ, w której do oceny kompleksu dodawanego w kolejnych iteracjach wykorzystywany jest osobny zbiór walidacyjny.
+
+Naszym celem jest porównanie klasycznej wersji algorytmu AQ z wersją zmodyfikowaną i sprawdzenie, czy ocenianie kompleksów na osobnym zbiorze walidacyjnym może ograniczyć przeuczenie oraz poprawić wyniki na nowych danych. Chcemy więc zobaczyć, jak taka zmiana sposobu wyboru kompleksów wpływa na jakość końcowego modelu.
+
+Projekt zakłada implementację obu wersji algorytmu, przeprowadzenie eksperymentów na wybranym zbiorze danych oraz analizę uzyskanych wyników.
+
+\section{Ogólny opis algorytmów, które będą wykorzystane}
+
+Podstawą projektu będzie algorytm AQ, czyli jeden z algorytmów indukcji reguł. Na podstawie danych uczących tworzy on zbiór reguł klasyfikacyjnych. Reguły te mają postać warunków logicznych, na podstawie których obiekt jest przypisywany do określonej klasy.
+
+W klasycznej wersji algorytmu:
+\begin{itemize}
+  \item wybierany jest pozytywny przykład dla danej klasy,
+  \item generowane są kompleksy opisujące ten przykład,
+  \item kompleksy są specjalizowane tak, aby odróżniały przykłady pozytywne od negatywnych,
+  \item wybierany jest najlepszy kompleks,
+  \item na jego podstawie tworzona jest reguła,
+  \item proces jest powtarzany aż do uzyskania zbioru reguł.
+\end{itemize}
+
+W wersji zmodyfikowanej proponowanej w projekcie generowanie kompleksów będzie przebiegało analogicznie, jednak ich ocena nie będzie oparta wyłącznie na zbiorze uczącym. Do wyboru kompleksu w danej iteracji zostanie użyty osobny zbiór walidacyjny. Pozwoli to sprawdzić, czy taki sposób wyboru prowadzi do reguł, które lepiej działają także poza danymi treningowymi.
+
+\section{Szacunkowy plan eksperymentów}
+
+Na tym etapie plan eksperymentów jest jeszcze roboczy i może zostać doprecyzowany w trakcie realizacji projektu.
+
+Zakładane etapy badań:
+\begin{enumerate}
+  \item implementacja klasycznej wersji algorytmu AQ,
+  \item implementacja zmodyfikowanej wersji z oceną kompleksu na zbiorze walidacyjnym,
+  \item podział danych na zbiory treningowy, walidacyjny i testowy,
+  \item uruchomienie obu wersji algorytmu na tym samym zbiorze danych,
+  \item porównanie wyników obu podejść.
+\end{enumerate}
+
+Planowane metryki oceny:
+\begin{itemize}
+  \item accuracy,
+  \item precision,
+  \item recall,
+  \item F1-score,
+  \item macro F1-score,
+  \item liczba oraz złożoność wygenerowanych reguł.
+\end{itemize}
+
+Obie wersje algorytmu będą porównywane na dokładnie tym samym podziale danych, tak żeby wyniki były możliwie miarodajne. Chcemy sprawdzić, czy wykorzystanie zbioru walidacyjnego przy ocenie kompleksów przełoży się na lepszą jakość klasyfikacji na danych testowych i czy jednocześnie ograniczy zbyt mocne dopasowanie modelu do zbioru treningowego.
+
+\section{Opis zbioru danych, który będzie używany do badań}
+
+W projekcie zostanie wykorzystany zbiór \textbf{Car Evaluation}.
+
+Charakterystyka zbioru:
+\begin{itemize}
+  \item 1728 przykładów,
+  \item 6 atrybutów wejściowych,
+  \item 4 klasy decyzyjne: \texttt{unacc}, \texttt{acc}, \texttt{good}, \texttt{vgood},
+  \item wszystkie atrybuty są kategoryczne.
+\end{itemize}
+
+Atrybuty opisują cechy samochodu:
+\begin{itemize}
+  \item \texttt{buying},
+  \item \texttt{maint},
+  \item \texttt{doors},
+  \item \texttt{persons},
+  \item \texttt{lug\_boot},
+  \item \texttt{safety}.
+\end{itemize}
+
+Wybraliśmy ten zbiór, ponieważ dobrze pasuje do charakteru algorytmu AQ. Jest to typowy problem klasyfikacyjny, a wszystkie atrybuty są symboliczne, więc można na nim w naturalny sposób budować reguły. Dodatkową zaletą jest to, że dane nie wymagają skomplikowanego przygotowania, a otrzymane reguły powinny być stosunkowo łatwe do interpretacji i porównania między obiema wersjami algorytmu.
+
+Przygotowanie danych będzie obejmowało przede wszystkim nadanie nazw kolumnom, rozdzielenie cech i klas oraz podział danych na zbiory treningowy, walidacyjny i testowy. Ze względu na nierówny rozkład klas planujemy zastosować podział stratyfikowany, aby w każdym zbiorze zachować możliwie podobne proporcje klas.
+
+\end{document}
